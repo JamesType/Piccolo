@@ -65,6 +65,7 @@ namespace Pilot
         LevelRes level_res;
         asset_manager.loadAsset(asset_manager.getFullPath(level_res_url), level_res);
 
+        m_gravity = level_res.m_gravity;
         for (const ObjectInstanceRes& object_instance_res : level_res.m_objects)
         {
             createObject(object_instance_res);
