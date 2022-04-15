@@ -97,7 +97,6 @@ namespace Pilot
             else
             {
                 m_vertical_move_speed = 0.f;
-                m_jump_state          = JumpState::idle;
             }
         }
         else if (m_jump_state == JumpState::rising || m_jump_state == JumpState::falling)
@@ -144,18 +143,11 @@ namespace Pilot
 
     void MotorComponent::calculateDesiredDisplacement(float delta_time)
     {
-        if (m_jump_state == JumpState::idle)
-        {
-            m_desired_displacement =
-                m_desired_horizontal_move_direction * m_move_speed * m_move_speed_ratio * delta_time +
-                Vector3::UNIT_Z * m_vertical_move_speed * delta_time;
-        }
-        else
-        {
-            m_desired_displacement =
-                m_desired_horizontal_move_direction * m_move_speed * m_jump_horizontal_speed_ratio * delta_time +
-                Vector3::UNIT_Z * m_vertical_move_speed * delta_time;
-        }
+        float horizontal_speed_ratio =
+            m_jump_state == JumpState::idle ? m_move_speed_ratio : m_jump_horizontal_speed_ratio;
+        m_desired_displacement =
+            m_desired_horizontal_move_direction * m_move_speed * horizontal_speed_ratio * delta_time +
+            Vector3::UNIT_Z * m_vertical_move_speed * delta_time;
     }
 
     void MotorComponent::setTargetPosition(const Vector3&& current_position)
