@@ -140,9 +140,12 @@ namespace Pilot
                                blendStateData.blend_weight[i],
                                blendStateData.blend_ratio[i],
                                blendStateData.blend_anim_skel_map[i]);
-            skeleton.resetSkeleton();
-            skeleton.applyAdditivePose(pose);
-            skeleton.extractPose(pose);
+            /**** object space ****/
+            //skeleton.resetSkeleton();
+            //skeleton.applyAdditivePose(pose);
+            //skeleton.extractPose(pose);
+
+            /**** local space ****/
             poses.push_back(pose);
         }
         for (int i = 1; i < blendStateData.clip_count; i++)
@@ -154,8 +157,13 @@ namespace Pilot
             poses[0].blend(poses[i]);
         }
 
+        /**** object space ****/
+        //skeleton.applyPose(poses[0]);
 
-        skeleton.applyPose(poses[0]);
+        /**** local space ****/
+        skeleton.resetSkeleton();
+        skeleton.applyAdditivePose(poses[0]);
+        
         animation_component.animation_result = skeleton.outputAnimationResult();
     }
 
