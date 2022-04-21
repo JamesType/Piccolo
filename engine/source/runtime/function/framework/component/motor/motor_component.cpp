@@ -88,7 +88,7 @@ namespace Pilot
             m_parent_object->tryGetComponent<AnimationComponent>("AnimationComponent");
         if (animation_component != nullptr)
         {
-            animation_component->updateSignal("speed", m_motor_res.m_move_speed * m_move_speed_ratio);
+            animation_component->updateSignal("speed", m_target_position.distance(transform_component->getPosition()) / delta_time);
             animation_component->updateSignal("jumping", m_jump_state != JumpState::idle);
         }
     }
