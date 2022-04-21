@@ -4,6 +4,7 @@ cpm_modules/
 CPM_modules/
 CPM_*.cmake
 .DS_Store
+*.code-workspace
 
 # CMake.gitignore https://github.com/github/gitignore/blob/master/CMake.gitignore
 CMakeLists.txt.user

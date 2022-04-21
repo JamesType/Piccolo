@@ -42,7 +42,7 @@ namespace Pilot
 
     void WorldManager::processPendingLoadWorld()
     {
-        if (m_pending_load_world_url.empty() || m_pending_load_world_url == m_current_world_url)
+        if (m_pending_load_world_url.empty())
             return;
 
         std::filesystem::path pending_load_world_url = m_pending_load_world_url;
@@ -85,9 +85,6 @@ namespace Pilot
     {
         if (m_current_active_level != nullptr)
         {
-            if (m_current_level_url == level_url)
-                return;
-
             auto iter = m_levels.begin();
             while (iter != m_levels.end())
             {

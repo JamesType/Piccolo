@@ -34,11 +34,14 @@ namespace Pilot
         void tickPlayerMotor(float delta_time);
         void destroy() override {}
 
+        const Vector3& getTargetPosition() const { return m_target_position; }
+        float getSpeedRatio() const { return m_move_speed_ratio; }
+
     private:
         void calculatedDesiredMoveSpeed(unsigned int command, float delta_time);
         void calculatedDesiredMoveDirection(unsigned int command, const Quaternion& object_rotation);
         void calculateDesiredDisplacement(float delta_time);
-        void setTargetPosition(const Vector3&& current_position);
+        void calculateTargetPosition(const Vector3&& current_position);
 
         META(Enable)
         MotorRes m_motor_res;

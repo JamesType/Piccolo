@@ -4,6 +4,7 @@
 #include "runtime/core/base/public_singleton.h"
 
 #include "runtime/engine.h"
+#include "runtime/function/character/character.h"
 #include "runtime/function/controller/character_controller.h"
 #include "runtime/function/framework/component/camera/camera_component.h"
 #include "runtime/function/framework/component/transform/transform_component.h"
@@ -54,6 +55,14 @@ namespace Pilot
 
     void MotorComponent::tickPlayerMotor(float delta_time)
     {
+        Level*     current_level     = WorldManager::getInstance().getCurrentActiveLevel();
+        Character* current_character = current_level->getCurrentActiveCharacter();
+        if (current_character == nullptr)
+            return;
+
+        if (current_character->getObject() != m_parent_object)
+            return;
+
         TransformComponent* transform_component =
             m_parent_object->tryGetComponent<TransformComponent>("TransformComponent");
 
@@ -67,8 +76,8 @@ namespace Pilot
         calculatedDesiredMoveSpeed(command, delta_time);
         calculatedDesiredMoveDirection(command, transform_component->getRotation());
         calculateDesiredDisplacement(delta_time);
+        calculateTargetPosition(transform_component->getPosition());
 
-        setTargetPosition(transform_component->getPosition());
         transform_component->setPosition(m_target_position);
     }
 
@@ -150,7 +159,7 @@ namespace Pilot
             Vector3::UNIT_Z * m_vertical_move_speed * delta_time;
     }
 
-    void MotorComponent::setTargetPosition(const Vector3&& current_position)
+    void MotorComponent::calculateTargetPosition(const Vector3&& current_position)
     {
         Vector3 final_position = current_position;
 
