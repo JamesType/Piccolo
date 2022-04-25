@@ -2,6 +2,7 @@
 
 #include "editor/include/axis.h"
 
+#include "runtime/core/base/macro.h"
 #include "runtime/core/math/vector2.h"
 
 #include "runtime/function/framework/object/object.h"
@@ -30,7 +31,11 @@ namespace Pilot
     {
 
     private:
-        void        onFileContentItemClicked(EditorFileNode* node);
+        void onFileContentItemClicked(EditorFileNode* node);
+        void onWorldAssetClicked(EditorFileNode* node);
+        void onLevelAssetClicked(EditorFileNode* node);
+        void onObjectAssetClicked(EditorFileNode* node);
+
         void        drawSelectedEntityAxis();
         void        moveEntity(float     new_mouse_pos_x,
                                float     new_mouse_pos_y,
@@ -86,7 +91,7 @@ namespace Pilot
 
         // 0 for x, 1 for y, 2 for z
         // 0 for yoz, 1 for xoz, 2 for xoy
-        size_t    m_selected_gobject_id {0};
+        size_t    m_selected_gobject_id {PILOT_INVALID_GOBJECT_ID};
         Matrix4x4 m_selected_object_matrix {Matrix4x4::IDENTITY};
 
         EditorAxisMode m_axis_mode {EditorAxisMode::TranslateMode};
