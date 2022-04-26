@@ -12,10 +12,8 @@ namespace Pilot
     class Level
     {
     protected:
-        size_t      m_next_gobject_id {0};
-        float       m_gravity {9.8f};
-        std::string m_level_res_url;
-
+        size_t                               m_next_gobject_id {0};
+        std::string                          m_level_res_url;
         std::unordered_map<size_t, GObject*> m_gobjects;
 
         Character* m_current_active_character;
@@ -30,8 +28,6 @@ namespace Pilot
         void tickAll(float delta_time);
 
         const std::string& getLevelResUrl() const { return m_level_res_url; }
-
-        float getGravity() const { return m_gravity; }
 
         const std::unordered_map<size_t, GObject*>& getAllGObjects() const { return m_gobjects; }
 

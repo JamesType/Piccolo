@@ -84,13 +84,6 @@ namespace Pilot
 
         transform_component->setPosition(m_target_position);
 
-        AnimationComponent* animation_component =
-            m_parent_object->tryGetComponent<AnimationComponent>("AnimationComponent");
-        if (animation_component != nullptr)
-        {
-            animation_component->updateSignal("speed", m_target_position.distance(transform_component->getPosition()) / delta_time);
-            animation_component->updateSignal("jumping", m_jump_state != JumpState::idle);
-        }
     }
 
     void MotorComponent::calculatedDesiredHorizontalMoveSpeed(unsigned int command, float delta_time)
@@ -129,36 +122,6 @@ namespace Pilot
 
     void MotorComponent::calculatedDesiredVerticalMoveSpeed(unsigned int command, float delta_time)
     {
-        Level* level = WorldManager::getInstance().getCurrentActiveLevel();
-        if (level == nullptr)
-            return;
-
-        if (m_motor_res.m_jump_height == 0.f)
-            return;
-
-        const float gravity = level->getGravity();
-
-        if (m_jump_state == JumpState::idle)
-        {
-            if ((unsigned int)GameCommand::jump & command)
-            {
-                m_jump_state                  = JumpState::rising;
-                m_vertical_move_speed         = Math::sqrt(m_motor_res.m_jump_height * 2 * gravity);
-                m_jump_horizontal_speed_ratio = m_move_speed_ratio;
-            }
-            else
-            {
-                m_vertical_move_speed = 0.f;
-            }
-        }
-        else if (m_jump_state == JumpState::rising || m_jump_state == JumpState::falling)
-        {
-            m_vertical_move_speed -= gravity * delta_time;
-            if (m_vertical_move_speed <= 0.f)
-            {
-                m_jump_state = JumpState::falling;
-            }
-        }
     }
 
     void MotorComponent::calculatedDesiredMoveDirection(unsigned int command, const Quaternion& object_rotation)
