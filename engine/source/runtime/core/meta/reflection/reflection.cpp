@@ -1,6 +1,7 @@
 #include "reflection.h"
 #include <cstring>
 #include <map>
+#include <algorithm>
 
 namespace Piccolo
 {
